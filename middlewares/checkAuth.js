@@ -7,16 +7,17 @@ const checkAuth = async (req, res, next) => {
         status: "failed",
         message: "Please provide a token to authorize!",
       });
+    } else {
+      const bearerToken = req.headers.authorization.split(" ")[1];
+
+      const decoded = await jwt.verify(bearerToken, process.env.JWT_SECRET);
+
+      const user_id = decoded.id;
+      let user = await db.query(`SELECT * FROM users where id='${user_id}'`);
+      user = user.rows[0];
+      req.user = user;
+      next();
     }
-    const bearerToken = req.headers.authorization.split(" ")[1];
-
-    const decoded = await jwt.verify(bearerToken, process.env.JWT_SECRET);
-
-    const user_id = decoded.id;
-    let user = await db.query(`SELECT * FROM users where id='${user_id}'`);
-    user = user.rows[0];
-    req.user = user;
-    next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {
       // token is expired and redirect to login
@@ -25,7 +26,7 @@ const checkAuth = async (req, res, next) => {
         message: "Token is expired! Please login to access this route",
       });
     } else {
-      res.status(404).json(err);
+      console.log(err);
     }
   }
 };

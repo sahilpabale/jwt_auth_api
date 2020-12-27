@@ -2,6 +2,12 @@ const db = require("../db");
 const jwt = require("jsonwebtoken");
 const checkAuth = async (req, res, next) => {
   try {
+    if (!req.headers.authorization) {
+      res.status(404).json({
+        status: "failed",
+        message: "Please provide a token to authorize!",
+      });
+    }
     const bearerToken = req.headers.authorization.split(" ")[1];
 
     const decoded = await jwt.verify(bearerToken, process.env.JWT_SECRET);
@@ -18,9 +24,9 @@ const checkAuth = async (req, res, next) => {
         status: "failed",
         message: "Token is expired! Please login to access this route",
       });
-      next();
+    } else {
+      res.status(404).json(err);
     }
-    res.json(err);
   }
 };
 

@@ -1,5 +1,9 @@
 const express = require("express");
-require("dotenv").config();
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const db = require("./db");
 const router = require("./routes/index");
 

@@ -23,7 +23,7 @@ const Register = async (req, res) => {
       let mailSent = sendMail(email, full_name);
 
       if (mailSent) {
-        console.log("mail sent");
+        console.log(mailSent);
       } else {
         console.log("mail not sent");
       }

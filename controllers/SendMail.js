@@ -26,12 +26,12 @@ const SendMail = async (email, full_name) => {
       html: `
         <h1>Verify your account</h1>
         <p>Click the link below to verify your account.</p><br>
-        <a href="${APP_URL}/api/verify/${token}" target="_blank">Click here</a>
+        <a href="${process.env.APP_URL}/api/verify/${token}" target="_blank">Click here</a>
         <br><br>
         <small>The link will expire in 10 mins!</small>
         `, // html body
     });
-    return 1;
+    return info;
   } catch (error) {
     return error;
   }

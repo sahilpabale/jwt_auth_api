@@ -31,7 +31,7 @@ const SendMail = async (email, full_name) => {
         <small>The link will expire in 10 mins!</small>
         `, // html body
     });
-    return info;
+    return 1;
   } catch (error) {
     return error;
   }

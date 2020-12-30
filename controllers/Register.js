@@ -23,9 +23,9 @@ const Register = async (req, res) => {
       let mailSent = sendMail(email, full_name);
 
       if (mailSent) {
-        console.log(mailSent);
+        console.log("Mail Sent!");
       } else {
-        console.log("mail not sent");
+        console.log("Mail not sent");
       }
       res.status(200).json({
         status: "success",

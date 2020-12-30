@@ -29,13 +29,11 @@ const verifyEmail = async (req, res) => {
       message: `Successfully verified ${email}`,
     });
   } catch (error) {
-    if (error) {
-      res.status(404).json({
-        status: "failed",
-        message: "Verification token is incorrect! Try again.",
-        error,
-      });
-    }
+    res.status(404).json({
+      status: "failed",
+      message: "Verification token is incorrect! Try again.",
+      error,
+    });
   }
 };
 module.exports = verifyEmail;

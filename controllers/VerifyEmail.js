@@ -10,7 +10,7 @@ const verifyEmail = async (req, res) => {
     const email = decoded.email;
 
     const email_verify = await db.query(
-      `SELECT is_verified FROM users WHERE email='${email}';`
+      `SELECT is_verified FROM users WHERE email='${email}';`,
     );
 
     if (email_verify.rows[0].is_verified) {
@@ -21,7 +21,7 @@ const verifyEmail = async (req, res) => {
     }
 
     const result = await db.query(
-      `UPDATE users SET is_verified='true' WHERE email='${email}';`
+      `UPDATE users SET is_verified='true' WHERE email='${email}';`,
     );
 
     res.status(200).json({
@@ -29,10 +29,11 @@ const verifyEmail = async (req, res) => {
       message: `Successfully verified ${email}`,
     });
   } catch (error) {
-    if (error.name === "TokenExpiredError") {
+    if (error) {
       res.status(404).json({
         status: "failed",
-        message: "Verification link is expired! Ask for another link.",
+        message: "Verification token is incorrect! Try again.",
+        error,
       });
     }
   }
